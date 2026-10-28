@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fliptimize — profitable eBay deals, sent to your phone</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#5938FD">
 <meta name="description" content="Fliptimize finds eBay UK listings you can buy and resell for profit, and tells you the most to pay. Coming soon.">
 <style>
   :root { --bg:#FCFCFC; --text:#0B0F1E; --muted:#333C64; --accent:#5938FD; --line:#E8E5FE; --brand:#FCFCFC; --brandtx:#0B0F1E; --onbtn:#ffffff; --foot:#333C64; --logo:linear-gradient(135deg,#6937FB,#BD58FD); --grad:linear-gradient(135deg,#5938FD 0%,#5938FD 45%,#BD58FD 100%); color-scheme: light dark; }
@@ -12,7 +16,8 @@
   html, body { margin: 0; background: var(--bg); color: var(--text); }
   body { font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
   main { flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 560px; margin: 0 auto; padding: 48px 20px; }
-  .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; }
+  .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; display: flex; align-items: center; }
+  .logo img { border-radius: 7px; margin-right: 9px; }
   .logo span { background: var(--logo); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .bar { background: var(--brand); padding: 14px 20px; border-bottom: 1px solid var(--line); }
   .bar .logo { margin: 0 auto; max-width: 560px; color: var(--brandtx); }
@@ -30,7 +35,7 @@
 </style>
 </head>
 <body>
-<div class="bar"><div class="logo"><span>flip</span>timize</div></div>
+<div class="bar"><div class="logo"><img src="/img/icon-192.png" alt="" width="30" height="30"><span>flip</span>timize</div></div>
 <main>
   <div class="tag">Coming soon · UK</div>
   <h1>Profitable eBay deals, <span style="background:var(--logo);-webkit-background-clip:text;background-clip:text;color:transparent">sent to your phone.</span></h1>

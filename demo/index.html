@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Fliptimize — demo</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#5938FD">
 <meta name="robots" content="noindex">
 <style>
 /* v3: FlipScout navy + ONE green; amber only for warnings. Type scale 12/14/16/20/28. Tap targets 44px+ */
@@ -24,7 +28,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;paddin
 .demo{font-size:12px;text-align:center;padding:4px;background:var(--grad);color:#fff;font-weight:600}
 .brandbar{background:var(--brand);border-bottom:1px solid var(--brandbd)}
 header{display:flex;align-items:center;gap:12px;padding:12px 16px;max-width:640px;margin:auto;min-height:56px}
-.brand{font-weight:800;font-size:20px;letter-spacing:-.5px;flex:1;color:var(--brandtx)}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.5px;flex:1;color:var(--brandtx);display:flex;align-items:center}.brand img{border-radius:6px;margin-right:8px}
 .brand b{background:var(--logo);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hsub{font-size:14px;color:var(--mu)}
 main{padding:12px 16px 16px;max-width:640px;margin:auto}
@@ -190,7 +194,7 @@ const IC = {
   info: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h0"/></svg>',
 };
 const demo = '<div class="demo">Demo · example deals, not real listings</div>';
-const head = (right) => `<div class="brandbar"><header><div class="brand"><b>flip</b>timize</div>${right || ""}</header></div>`;
+const head = (right) => `<div class="brandbar"><header><div class="brand"><img src="/img/icon-192.png" alt="" width="28" height="28"><b>flip</b>timize</div>${right || ""}</header></div>`;
 const nav = (on) => `<nav>${[["deals","Deals"],["follow","Following"],["settings","Settings"],["account","Account"]].map(([k, l]) => `<button class="${on === k ? "on" : ""}" onclick="go('${k}')">${IC[k]}<span>${l}</span></button>`).join("")}</nav>`;
 const dots = (i) => `<div class="dots">${[1,2,3].map((n) => `<i class="${n === i ? "on" : ""}"></i>`).join("")}</div>`;
 const scoreTxt = (d) => `<span class="score"><span class="sw-word">${word(d.score)}</span> · <span class="${d.score >= 70 ? "s1" : d.score >= 50 ? "s2" : "s3"}">${d.score}</span></span>`;
