@@ -112,6 +112,18 @@ nav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;st
 .grab{width:40px;height:5px;border-radius:9px;background:var(--bd);margin:4px auto 14px}
 .opt{display:block;width:100%;text-align:left;min-height:52px;padding:0 4px;font-size:16px;border-bottom:1px solid var(--bd)}.opt.on{color:var(--vi);font-weight:700}
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;z-index:30;max-width:90%;text-align:center}
+.rows .deal.deal{display:block;padding:0}
+.dtop{display:flex;gap:12px;align-items:flex-start;padding:12px 12px 10px}
+.dtop .thumb{width:56px;height:56px}
+.dfoot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd);padding:0 12px;min-height:44px;font-size:13px}
+.dfoot .dmeta{margin:0 !important;font-size:13px}
+.dpro{display:flex;align-items:center;gap:4px}.pv{font-size:18px;font-weight:800;color:var(--green)}.pl{font-size:12px;color:var(--mu)}
+.dfoot .more{margin:0 -12px 0 -4px}
+.sring{width:26px !important;height:26px !important;border-width:2px !important}
+.lab{background:var(--vi) !important;color:#fff !important;border:0 !important;padding:1px 7px !important;margin-right:6px !important;vertical-align:1px}
+@media (prefers-color-scheme:dark){.lab{color:#13162A !important}}
+@media (prefers-color-scheme:dark){.thumb{background:#2A2E4D !important;border-color:#333C64}}
+.thumb{background:var(--card2)}
 </style>
 </head>
 <body>
@@ -187,14 +199,13 @@ const scoreTxt = (d) => `<span class="score"><span class="sw-word">${word(d.scor
 function row(d) {
   const auc = d.type === "AUC";
   return `<div class="deal" role="button" tabindex="0" onclick="go('deal',{deal:${d.id}})">
-   <div class="thumb">Photo</div>
-   <div class="dmid">
-    <div class="dtitle">${d.title}</div>
-    <div class="dsub">${auc ? `<span class="lab">Auction</span> Bid up to <b>${gbp0(d.maxBid)}</b>` : `Buy <b>${gbp(d.price)}</b>${d.ship ? "" : " · free post"}`}</div>
-    <div class="dmeta"><span class="sring ${d.score >= 70 ? "s1" : d.score >= 50 ? "s2" : "s3"}">${d.score}</span><span class="sw-word">${word(d.score)}</span><span>· ${auc ? "ends " + ends(d.endsMin) : ago(d.mins)}</span></div>
-   </div>
-   <div class="dright"><div class="ppill num">+${gbp0(d.profit)}</div>
-    ${S.preview ? "" : `<button class="more" aria-label="More options" onclick="event.stopPropagation();moreSheet(${d.id})">${IC.more}</button>`}</div>
+   <div class="dtop"><div class="thumb">Photo</div>
+    <div class="dmid">
+     <div class="dtitle">${d.title}</div>
+     <div class="dsub">${auc ? `<span class="lab">Auction</span>Bid up to <b>${gbp0(d.maxBid)}</b>` : `Buy <b>${gbp(d.price)}</b>${d.ship ? "" : " · free post"}`}</div>
+    </div></div>
+   <div class="dfoot"><span class="dmeta"><span class="sring ${d.score >= 70 ? "s1" : d.score >= 50 ? "s2" : "s3"}">${d.score}</span><span class="sw-word">${word(d.score)}</span><span>· ${auc ? "ends " + ends(d.endsMin) : ago(d.mins)}</span></span>
+    <span class="dpro"><span class="pv num">+${gbp0(d.profit)}</span> <span class="pl">profit</span>${S.preview ? "" : `<button class="more" aria-label="More options" onclick="event.stopPropagation();moreSheet(${d.id})">${IC.more}</button>`}</span></div>
   </div>`;
 }
 function moreSheet(i) {
@@ -235,7 +246,7 @@ const SCR = {
   const k = { best: (d) => d.score, profit: (d) => d.profit, ending: (d) => -(d.endsMin || 1e9), newest: (d) => -d.mins }[S.sort]; L = [...L].sort((a, b) => k(b) - k(a));
   if (S.preview) L = L.slice(0, 4);
     return `${demo}${head(`<span class="hsub">${S.preview ? "Examples" : "Updated 1 min ago"}</span>`)}<main>
-   ${S.preview ? "" : `<div class="chips">${[["all","All"],["BIN","Buy It Now"],["AUC","Auctions"],["col","Collection"]].map(([v, l]) => `<button class="chip ${S.f === v ? "on" : ""}" onclick="S.f='${v}';render()">${l}</button>`).join("")}</div>
+   ${`<div class="chips">${[["all","All"],["BIN","Buy It Now"],["AUC","Auctions"],["col","Collection"]].map(([v, l]) => `<button class="chip ${S.f === v ? "on" : ""}" onclick="S.f='${v}';render()">${l}</button>`).join("")}</div>
    <div class="spread" style="margin:4px 2px 8px"><span class="mu t14">${L.length} deals</span><button class="sortb" onclick="sortSheet()">Sort: <b>${SORTS[S.sort]}</b> ▾</button></div>`}
    <div class="rows">${L.map(row).join("") || '<p class="mu" style="padding:16px">No deals match. Tick more categories in Settings.</p>'}</div>
    ${S.preview ? `<div class="card" style="text-align:center"><div class="t20 b">Get deals like these</div><p class="mu t14" style="margin:6px 0 14px">Free to try. Takes 30 seconds.</p><button class="btn" onclick="go('ob2')">Create account</button></div>` : ""}
