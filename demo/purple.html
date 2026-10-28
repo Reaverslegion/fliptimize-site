@@ -7,10 +7,10 @@
 <meta name="robots" content="noindex">
 <style>
 /* v3: FlipScout navy + ONE green; amber only for warnings. Type scale 12/14/16/20/28. Tap targets 44px+ */
-:root{--bg:#FCFCFC;--card:#FFFFFF;--card2:#F5F7FC;--tx:#0B0F1E;--mu:#333C64;--bd:#E8E5FE;--green:#1F7A4D;--greenbg:#F5F7FC;--warn:#BD58FD;--warnbg:#F5F7FC;--red:#B42318;
+:root{--bg:#FCFCFC;--card:#FFFFFF;--card2:#F5F7FC;--tx:#0B0F1E;--mu:#333C64;--bd:#E8E5FE;--green:#1F7A4D;--greenbg:#F5F7FC;--warn:#BD58FD;--warnbg:#F5F7FC;--red:#B42318;--amber:#9A6700;
  --vi:#5938FD;--soft:#926CFC;--btn:#5938FD;--onbtn:#FFFFFF;--brand:#FCFCFC;--brandbd:#E8E5FE;--brandtx:#0B0F1E;--navmu:#333C64;--navac:#5938FD;
  --logo:linear-gradient(135deg,#6937FB,#BD58FD);--grad:linear-gradient(135deg,#5938FD 0%,#5938FD 45%,#BD58FD 100%);--shadow:0 1px 2px rgba(51,60,100,.06),0 6px 18px rgba(89,56,253,.08);color-scheme:light dark}
-@media (prefers-color-scheme:dark){:root{--bg:#13162A;--card:#20233C;--card2:#15182A;--tx:#F1F4FE;--mu:#E8E5FE;--bd:#333C64;--green:#5BB98B;--greenbg:#20233C;--warn:#C85EFB;--warnbg:#20233C;--red:#E07A7A;
+@media (prefers-color-scheme:dark){:root{--bg:#13162A;--card:#20233C;--card2:#15182A;--tx:#F1F4FE;--mu:#E8E5FE;--bd:#333C64;--green:#5BB98B;--greenbg:#20233C;--warn:#C85EFB;--warnbg:#20233C;--red:#E07A7A;--amber:#E3B341;
  --vi:#A582FD;--soft:#974EFD;--btn:#6143FC;--onbtn:#FFFFFF;--brand:#15182A;--brandbd:#20233C;--brandtx:#F1F4FE;--navmu:#E8E5FE;--navac:#A582FD;
  --logo:linear-gradient(135deg,#974EFD,#C85EFB);--grad:linear-gradient(135deg,#6143FC 0%,#6143FC 45%,#C85EFB 100%);--shadow:none}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -53,7 +53,7 @@ main{padding:12px 16px 16px;max-width:640px;margin:auto}
 .more{width:44px;height:44px;display:grid;place-items:center;margin:-4px -12px -10px 0;color:var(--mu)}
 .more svg,.iconb svg{width:22px;height:22px;fill:currentColor;stroke:currentColor;stroke-width:0}
 .lab{display:inline-block;font-size:12px;font-weight:700;padding:0 6px;border-radius:6px;border:1px solid var(--bd);color:var(--tx);margin-right:2px}
-.score{font-weight:700}.score.s1{color:var(--vi)}.score.s2{color:var(--warn)}.score.s3{color:var(--red)}
+.score{font-weight:700}.sw-word{color:var(--vi)}.score .s1{color:var(--green)}.score .s2{color:var(--amber)}.score .s3{color:var(--red)}
 /* deal page */
 .topbar{position:sticky;top:0;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:var(--bg);max-width:640px;margin:auto}
 .iconb{width:44px;height:44px;display:grid;place-items:center;border-radius:12px}
@@ -63,7 +63,7 @@ main{padding:12px 16px 16px;max-width:640px;margin:auto}
 .gal div{flex:none;width:88%;height:240px;border-radius:16px;background:var(--card2);scroll-snap-align:center;display:grid;place-items:center;color:var(--mu);font-size:14px}
 .scorebtn{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px}
 .scorebtn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
-.hero{background:var(--grad);border-color:transparent;color:#fff;padding:12px 16px;margin:8px 0 12px}.hrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.hright{text-align:right}.hl{opacity:.85}.hero b{color:#fff}
+.hero{background:var(--grad);border-color:transparent;color:#fff;padding:10px;margin:8px 0 12px}.hero .pl{background:rgba(0,0,0,.6);border-radius:12px;padding:6px 12px}.hero .pl .num{color:#5BB98B}.hrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.hright{text-align:right}.hl{opacity:.85}.hero b{color:#fff}
 .sec{font-size:14px;font-weight:700;color:var(--mu);margin:20px 2px 8px}
 .li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);font-size:16px}
 .li:last-child{border-bottom:0}.li>span:first-child{color:var(--mu)}.li.t>span{font-weight:700;color:var(--tx)}.li.t>span.green{color:var(--green)}
@@ -169,7 +169,7 @@ const demo = '<div class="demo">Demo · example deals, not real listings</div>';
 const head = (right) => `<div class="brandbar"><header><div class="brand"><b>flip</b>timize</div>${right || ""}</header></div>`;
 const nav = (on) => `<nav>${[["deals","Deals"],["follow","Following"],["settings","Settings"],["account","Account"]].map(([k, l]) => `<button class="${on === k ? "on" : ""}" onclick="go('${k}')">${IC[k]}<span>${l}</span></button>`).join("")}</nav>`;
 const dots = (i) => `<div class="dots">${[1,2,3].map((n) => `<i class="${n === i ? "on" : ""}"></i>`).join("")}</div>`;
-const scoreTxt = (d) => `<span class="score ${d.score >= 70 ? "s1" : d.score >= 50 ? "s2" : "s3"}">${word(d.score)} · ${d.score}</span>`;
+const scoreTxt = (d) => `<span class="score"><span class="sw-word">${word(d.score)}</span> · <span class="${d.score >= 70 ? "s1" : d.score >= 50 ? "s2" : "s3"}">${d.score}</span></span>`;
 
 // ---------------- slim deal row ----------------
 function row(d) {
@@ -239,8 +239,8 @@ const SCR = {
    <div class="mu t14" style="margin:4px 0 8px">${auc ? '<span class="lab">Auction</span> ' : ""}${d.cond} · ${CATNAME[d.cat]} · ${d.loc}</div>
    <button class="scorebtn" onclick="scoreSheet(${d.id})">${scoreTxt(d)} <span class="mu t12" style="display:inline-flex;align-items:center;gap:3px">${IC.info}what's this?</span></button>
    <div class="card hero"><div class="hrow">
-    <div><div class="t12 hl">${auc ? "Profit at your max bid" : "Expected profit"}</div><div class="t28 b num" style="line-height:1.1">${gbp(d.profit)}</div></div>
-    <div class="hright">${auc ? `<div class="t16">Bid up to <b>${gbp0(d.maxBid)}</b></div><div class="t12 hl">now ${gbp(d.price)} · ends in ${ends(d.endsMin)}</div>` : `<div class="t16">Buy now <b>${gbp(d.price)}</b></div><div class="t12 hl">pay no more than ${gbp0(Math.floor(d.mostTotal))}</div>`}</div>
+    <div class="pl"><div class="t12 hl">${auc ? "Profit at your max bid" : "Expected profit"}</div><div class="t28 b num" style="line-height:1.1">${gbp(d.profit)}</div></div>
+    <div class="hright pl">${auc ? `<div class="t16">Bid up to <b>${gbp0(d.maxBid)}</b></div><div class="t12 hl">now ${gbp(d.price)} · ends in ${ends(d.endsMin)}</div>` : `<div class="t16">Buy now <b>${gbp(d.price)}</b></div><div class="t12 hl">pay no more than ${gbp0(Math.floor(d.mostTotal))}</div>`}</div>
    </div></div>
    <div class="sec">The money</div>
    <div class="card list">
