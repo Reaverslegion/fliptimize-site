@@ -7,10 +7,10 @@
 <meta name="robots" content="noindex">
 <style>
 /* v3: FlipScout navy + ONE green; amber only for warnings. Type scale 12/14/16/20/28. Tap targets 44px+ */
-:root{--bg:#FCFCFC;--card:#FFFFFF;--card2:#F5F7FC;--tx:#0B0F1E;--mu:#333C64;--bd:#E8E5FE;--green:#5938FD;--greenbg:#F5F7FC;--warn:#BD58FD;--warnbg:#F5F7FC;--red:#B42318;
+:root{--bg:#FCFCFC;--card:#FFFFFF;--card2:#F5F7FC;--tx:#0B0F1E;--mu:#333C64;--bd:#E8E5FE;--green:#1F7A4D;--greenbg:#F5F7FC;--warn:#BD58FD;--warnbg:#F5F7FC;--red:#B42318;
  --vi:#5938FD;--soft:#926CFC;--btn:#5938FD;--onbtn:#FFFFFF;--brand:#FCFCFC;--brandbd:#E8E5FE;--brandtx:#0B0F1E;--navmu:#333C64;--navac:#5938FD;
  --logo:linear-gradient(135deg,#6937FB,#BD58FD);--grad:linear-gradient(135deg,#5938FD 0%,#5938FD 45%,#BD58FD 100%);--shadow:0 1px 2px rgba(51,60,100,.06),0 6px 18px rgba(89,56,253,.08);color-scheme:light dark}
-@media (prefers-color-scheme:dark){:root{--bg:#13162A;--card:#20233C;--card2:#15182A;--tx:#F1F4FE;--mu:#E8E5FE;--bd:#333C64;--green:#A582FD;--greenbg:#20233C;--warn:#C85EFB;--warnbg:#20233C;--red:#F87171;
+@media (prefers-color-scheme:dark){:root{--bg:#13162A;--card:#20233C;--card2:#15182A;--tx:#F1F4FE;--mu:#E8E5FE;--bd:#333C64;--green:#5BB98B;--greenbg:#20233C;--warn:#C85EFB;--warnbg:#20233C;--red:#E07A7A;
  --vi:#A582FD;--soft:#974EFD;--btn:#6143FC;--onbtn:#FFFFFF;--brand:#15182A;--brandbd:#20233C;--brandtx:#F1F4FE;--navmu:#E8E5FE;--navac:#A582FD;
  --logo:linear-gradient(135deg,#974EFD,#C85EFB);--grad:linear-gradient(135deg,#6143FC 0%,#6143FC 45%,#C85EFB 100%);--shadow:none}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -21,7 +21,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;paddin
 .t12{font-size:12px}.t14{font-size:14px}.t16{font-size:16px}.t20{font-size:20px;letter-spacing:-.2px}.t28{font-size:28px;letter-spacing:-.6px}
 .b{font-weight:700}.mu{color:var(--mu)}@media (prefers-color-scheme:dark){.mu{color:var(--mu);opacity:.78}}.green{color:var(--green)}.num{font-variant-numeric:tabular-nums}
 .spread{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.demo{font-size:12px;text-align:center;padding:4px;background:var(--grad);color:#fff;font-weight:600}
+.demo{font-size:12px;text-align:center;padding:4px;background:var(--card2);color:var(--mu);font-weight:600;border-bottom:1px solid var(--bd)}
 .brandbar{background:var(--brand);border-bottom:1px solid var(--brandbd)}
 header{display:flex;align-items:center;gap:12px;padding:12px 16px;max-width:640px;margin:auto;min-height:56px}
 .brand{font-weight:800;font-size:20px;letter-spacing:-.5px;flex:1;color:var(--brandtx)}
@@ -35,7 +35,7 @@ main{padding:12px 16px 16px;max-width:640px;margin:auto}
 .btn.link{background:none;color:var(--vi);min-height:48px;margin-top:4px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none}
 .chip{flex:none;min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--bd);background:var(--card);font-size:14px;font-weight:600}
-.chip.on{background:var(--grad);border-color:transparent;color:#fff}
+.chip.on{background:var(--btn);border-color:var(--btn);color:#fff}
 .chip.w{border-color:var(--warn);color:var(--warn);background:var(--warnbg)}
 
 .sortb{min-height:44px;font-size:14px;color:var(--mu)}.sortb b{color:var(--tx)}
@@ -63,7 +63,7 @@ main{padding:12px 16px 16px;max-width:640px;margin:auto}
 .gal div{flex:none;width:88%;height:240px;border-radius:16px;background:var(--card2);scroll-snap-align:center;display:grid;place-items:center;color:var(--mu);font-size:14px}
 .scorebtn{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px}
 .scorebtn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
-.hero{background:var(--grad);border-color:transparent;color:#fff}.hero .mu,.hero .green,.hero b{color:#fff}.hero .mu{opacity:.85}
+.hero{background:var(--card);border-color:var(--bd);box-shadow:inset 4px 0 0 var(--vi),var(--shadow)}
 .sec{font-size:14px;font-weight:700;color:var(--mu);margin:20px 2px 8px}
 .li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);font-size:16px}
 .li:last-child{border-bottom:0}.li>span:first-child{color:var(--mu)}.li.t>span{font-weight:700;color:var(--tx)}.li.t>span.green{color:var(--green)}
