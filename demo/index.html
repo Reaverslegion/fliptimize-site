@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fliptimize — demo</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --bg:#000; --card:#1E1E20; --card2:#26262A; --line:#333336; --text:#fff; --muted:#B0B0B5; --accent:#34D399; --amber:#E3B341; --orange:#F0883E; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 84px; }
+  .banner { font-size: 11px; color: var(--muted); text-align: center; padding: 6px; border-bottom: 1px solid var(--line); letter-spacing: .3px; }
+  .screen { padding: 16px; }
+  .logo { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
+  .logo span { color: var(--accent); }
+  h1 { font-size: 26px; line-height: 1.15; letter-spacing: -0.5px; margin: 8px 0 10px; }
+  h2 { font-size: 20px; margin: 4px 0 14px; letter-spacing: -0.2px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+  .btn { display: block; width: 100%; text-align: center; background: var(--accent); color: #04140a; font-weight: 700; padding: 15px; border-radius: 14px; font-size: 16px; }
+  .btn.ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .stack > * + * { margin-top: 10px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+  /* onboarding */
+  .ob { min-height: calc(100vh - 30px); display: flex; flex-direction: column; justify-content: space-between; padding: 28px 20px 28px; }
+  .dots { display: flex; gap: 6px; justify-content: center; margin: 20px 0; }
+  .dots i { width: 6px; height: 6px; border-radius: 9px; background: var(--line); }
+  .dots i.on { background: var(--accent); width: 18px; }
+  .hero-num { font-size: 56px; font-weight: 800; color: var(--accent); letter-spacing: -2px; line-height: 1; }
+  /* header + tabs */
+  .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .chips { display: flex; gap: 8px; margin-bottom: 14px; }
+  .chip { padding: 7px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--card); font-size: 13px; color: var(--muted); }
+  .chip.on { border-color: var(--accent); color: var(--accent); }
+  /* deal cards */
+  .deal { display: flex; gap: 12px; padding: 12px; align-items: center; width: 100%; text-align: left; }
+  .thumb { width: 64px; height: 64px; border-radius: 12px; background: linear-gradient(135deg,#2a2a2e,#34343a); flex: none; display: grid; place-items: center; color: #6f6f75; font-size: 10px; }
+  .deal .mid { flex: 1; min-width: 0; }
+  .deal .title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .deal .sub { color: var(--muted); font-size: 13px; margin: 2px 0 6px; }
+  .deal .right { text-align: right; flex: none; }
+  .plus { color: var(--accent); font-weight: 700; font-size: 18px; }
+  .ago { color: var(--muted); font-size: 11px; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 99px; border: 1px solid var(--line); color: var(--text); background: var(--card2); }
+  .tag.Strong { color: var(--accent); border-color: var(--accent); background: transparent; font-weight: 600; }
+  .tag.Good { color: var(--amber); border-color: #5a4a1e; background: transparent; }
+  .tag.Check { color: var(--orange); border-color: #5c3a1f; background: transparent; }
+  /* deal page */
+  .back { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+  .back button { display: flex; align-items: center; gap: 4px; color: var(--text); font-size: 15px; }
+  .gallery { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; margin-bottom: 14px; }
+  .gallery div { flex: none; width: 86%; height: 220px; border-radius: 16px; background: linear-gradient(135deg,#232326,#2C2C30); scroll-snap-align: start; display: grid; place-items: center; color: #77777d; font-size: 13px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+  .profit { padding: 18px; margin: 12px 0; border-color: #2c5a47; box-shadow: inset 4px 0 0 var(--accent); }
+  .profit .big { font-size: 40px; font-weight: 700; color: var(--accent); letter-spacing: -1px; line-height: 1.1; margin: 2px 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .box { padding: 14px; }
+  .box .val { font-size: 22px; font-weight: 600; }
+  .rows { padding: 2px 14px; margin-bottom: 10px; }
+  .row { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14px; gap: 12px; }
+  .row:last-child { border-bottom: 0; }
+  .row > span:first-child { color: var(--muted); }
+  .row.total > span { color: var(--text); font-weight: 600; }
+  .section-title { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 18px 2px 8px; }
+  .desc { padding: 14px; font-size: 14px; color: #dcdce0; }
+  .cta { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px 20px; background: linear-gradient(transparent, #000 35%); z-index: 5; }
+  .cta .btn { max-width: 398px; margin: 0 auto; box-shadow: 0 6px 20px rgba(52,211,153,.25); }
+  /* settings */
+  .set { padding: 14px; }
+  .set + .set { border-top: 1px solid var(--line); }
+  .set .lbl { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+  .set .lbl b { color: var(--accent); }
+  .set .hint { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin-top: 10px; }
+  .tick { display: flex; align-items: center; gap: 10px; padding: 8px 0; width: 100%; text-align: left; }
+  .box-tick { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--line); display: grid; place-items: center; flex: none; }
+  .box-tick.on { background: var(--accent); border-color: var(--accent); }
+  .box-tick.on::after { content: ""; width: 5px; height: 10px; border: solid #04140a; border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px,-1px); }
+  .switch { width: 46px; height: 28px; border-radius: 99px; background: var(--line); position: relative; flex: none; transition: .2s; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: .2s; }
+  .switch.on { background: var(--accent); }
+  .switch.on::after { left: 21px; }
+  .link { color: var(--accent); font-size: 14px; padding: 14px; display: block; width: 100%; text-align: left; }
+  /* nav */
+  .nav { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(10,10,10,.96); border-top: 1px solid var(--line); z-index: 4; }
+  .nav .in { max-width: 430px; margin: 0 auto; display: flex; padding: 8px 8px 16px; }
+  .nav button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--muted); padding: 4px; }
+  .nav button.on { color: var(--text); }
+  .nav svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .nav button.on svg { stroke: var(--accent); }
+  .toast { position: fixed; left: 50%; bottom: 100px; transform: translateX(-50%); background: var(--card2); border: 1px solid var(--line); padding: 10px 16px; border-radius: 12px; font-size: 13px; z-index: 9; max-width: 90%; text-align: center; }
+  .notif { margin: 6px 0 18px; padding: 12px 14px; border-radius: 16px; background: #1b1b1e; border: 1px solid var(--line); text-align: left; }
+  .notif .t { font-weight: 600; font-size: 14px; }
+  .notif .b { color: var(--muted); font-size: 13px; }
+  .notif .app { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 4px; min-height: 0; padding: 0; max-width: none; }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+// ---------- example data (made up for the demo) ----------
+const OUT = 6.30;                                    // postage & packing to your buyer
+const fee = (x) => Math.round((x * 0.128 + 0.40) * 100) / 100;   // eBay selling fee estimate (business seller)
+const gbp = (x) => "£" + (Math.round(x * 100) / 100).toFixed(2).replace(/\.00$/, "");
+const DEALS = [
+  { id: 1, type: "BIN", title: "Apple iPhone 13 128GB Midnight — Unlocked", cond: "Used · Good", cat: "phones", price: 215, ship: 3.5, sells: 300, low: 275, lo: 280, hi: 315, n: 42, days: 30, speed: "about 1–2 weeks", conf: "Strong", mins: 4, seller: "techclearance_uk", fb: "99.6% · 1,240", desc: "Fully working, screen protector fitted from new. Light marks on the back. Battery health 86%. Comes with original box and cable." },
+  { id: 2, type: "AUC", title: "MSI GeForce RTX 3060 Ventus 2X 12GB", cond: "Used · Working", cat: "parts", price: 120, ship: 5, sells: 210, low: 190, lo: 195, hi: 225, n: 31, days: 30, speed: "under a week", conf: "Strong", mins: 12, endsIn: "25 min", bids: 4, seller: "pcparts_mike", fb: "100% · 312", desc: "Removed from working gaming PC. Never mined. Tested before removal, no artifacts. Will be well packed." },
+  { id: 3, type: "BIN", title: "Samsung Galaxy Tab S8 128GB Wi-Fi Graphite", cond: "Used · Very good", cat: "phones", price: 240, ship: 0, sells: 320, low: 295, lo: 290, hi: 345, n: 14, days: 30, speed: "about 2–3 weeks", conf: "Good", mins: 26, seller: "jen_sells_stuff", fb: "98.9% · 87", desc: "Used at home only, always in a case. S Pen included. Factory reset and ready to go." },
+  { id: 4, type: "BIN", title: "Corsair Vengeance LPX 32GB (2x16GB) DDR4 3200", cond: "Used · Working", cat: "parts", price: 38, ship: 2.9, sells: 72, low: 65, lo: 66, hi: 78, n: 56, days: 30, speed: "under a week", conf: "Strong", mins: 41, seller: "upgrade_leftovers", fb: "99.8% · 2,004", desc: "Pulled from a working system after upgrade. Passed MemTest. Posted in anti-static bags." },
+  { id: 5, type: "AUC", title: "Apple iPad Air 4th Gen 64GB Wi-Fi Space Grey", cond: "Used · Good", cat: "phones", price: 140, ship: 4.2, sells: 255, low: 225, lo: 230, hi: 270, n: 7, days: 30, speed: "not enough data", conf: "Check", mins: 58, endsIn: "3 h 10 min", bids: 1, seller: "clearout_2026", fb: "100% · 12", desc: "Works fine. Some scratches on the screen, not visible when on. No charger." },
+];
+for (const d of DEALS) {
+  d.costIn = d.price + d.ship;
+  d.profit = d.sells - fee(d.sells) - OUT - d.costIn;
+  d.lowProfit = d.low - fee(d.low) - OUT - d.costIn;
+  d.mostTotal = d.sells - fee(d.sells) - OUT - 10;               // most you can pay in total and still make £10
+  // auctions: most to bid = still £10 profit at the usual price AND no loss if it only sells at the low end
+  d.maxBid = Math.floor(Math.min(d.mostTotal, d.low - fee(d.low) - OUT) - d.ship);   // whole pounds, easier to bid
+  if (d.type === "AUC") { d.profit = d.sells - fee(d.sells) - OUT - (d.maxBid + d.ship); d.lowProfit = d.low - fee(d.low) - OUT - (d.maxBid + d.ship); }
+}
+
+// ---------- state ----------
+const S = { screen: "ob1", filter: "all", deal: null, cats: { phones: true, parts: true }, spend: 300, minProfit: 10, collect: false, miles: 15, quiet: true, limit: 20, advanced: false, seller: "business", post: 5, pack: 1.3 };
+const app = document.getElementById("app");
+const ICON = {
+  deals: '<svg viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h12"/></svg>',
+  settings: '<svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>',
+  account: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
+  back: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+};
+function go(screen, extra) { Object.assign(S, extra || {}, { screen }); render(); window.scrollTo(0, 0); }
+function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
+const banner = '<div class="banner">DEMO · example deals, not real listings</div>';
+const nav = (on) => `<div class="nav"><div class="in">
+  <button class="${on === "deals" ? "on" : ""}" onclick="go('deals')">${ICON.deals}Deals</button>
+  <button class="${on === "settings" ? "on" : ""}" onclick="go('settings')">${ICON.settings}Settings</button>
+  <button class="${on === "account" ? "on" : ""}" onclick="go('account')">${ICON.account}Account</button></div></div>`;
+const dots = (i) => `<div class="dots">${[1, 2, 3].map((n) => `<i class="${n === i ? "on" : ""}"></i>`).join("")}</div>`;
+const ago = (m) => m < 60 ? `Found ${m} min ago` : `Found ${Math.round(m / 60)} h ago`;
+const confText = { Strong: "Lots of recent sales at this price.", Good: "Some sales; prices vary a bit.", Check: "Few sales — check eBay's sold prices before buying." };
+const confLabel = (c) => c === "Check" ? "Check first" : c;
+
+// ---------- screens ----------
+const SCREENS = {
+  ob1: () => `${banner}<div class="ob"><div><div class="logo">flip<span>timize</span></div></div>
+    <div><div class="hero-num">+£36</div><h1>Profitable eBay deals, sent to your phone.</h1>
+    <p class="muted">We scan eBay UK for items you can buy cheap and resell — and tell you the most to pay.</p></div>
+    <div>${dots(1)}<div class="stack"><button class="btn" onclick="go('ob2')">Sign up with email</button>
+    <button class="btn ghost" onclick="go('ob2')">Continue with Google</button></div></div></div>`,
+
+  ob2: () => `${banner}<div class="ob"><div><div class="logo">flip<span>timize</span></div></div>
+    <div><h1>What do you want deals on?</h1><p class="muted">You can change this any time.</p>
+    <div class="card" style="padding:4px 14px;margin-top:16px">
+      ${tickRow("phones", "Phones & tablets")}${tickRow("parts", "Computer parts")}</div>
+    <div class="card set" style="margin-top:12px"><div class="lbl">Most I'll spend on one item <b>£${S.spend}</b></div>
+      <input type="range" min="50" max="1000" step="25" value="${S.spend}" oninput="S.spend=+this.value;this.previousElementSibling.querySelector('b').textContent='£'+this.value"></div></div>
+    <div>${dots(2)}<button class="btn" onclick="go('ob3')">Next</button></div></div>`,
+
+  ob3: () => `${banner}<div class="ob"><div><div class="logo">flip<span>timize</span></div></div>
+    <div><h1>Turn on alerts</h1><p class="muted">Good deals go fast. Alerts let you see them before other buyers do.</p>
+    <div class="notif"><div class="app"><span>Fliptimize</span><span>now</span></div>
+      <div class="t">£36 profit · iPhone 13 128GB</div><div class="b">Buy It Now £215 · sells for about £300 · tap to view</div></div>
+    <p class="muted small">We'll never send more than your daily limit, and nothing during quiet hours.</p></div>
+    <div>${dots(3)}<div class="stack"><button class="btn" onclick="toast('Your phone would now ask: Allow notifications?');setTimeout(()=>go('deals'),900)">Allow alerts</button>
+    <button class="btn ghost" onclick="go('deals')">Not now</button></div></div></div>`,
+
+  deals: () => {
+    const list = DEALS.filter((d) => S.cats[d.cat] && (S.filter === "all" || d.type === S.filter));
+    return `${banner}<div class="screen"><div class="head"><div class="logo">flip<span>timize</span></div><span class="muted small">${list.length} deals</span></div>
+    <div class="chips">${[["all", "All"], ["BIN", "Buy It Now"], ["AUC", "Auctions"]].map(([k, l]) => `<button class="chip ${S.filter === k ? "on" : ""}" onclick="S.filter='${k}';render()">${l}</button>`).join("")}</div>
+    <div class="stack">${list.map((d) => `<button class="card deal" onclick="go('deal',{deal:${d.id}})">
+      <div class="thumb">Photo</div>
+      <div class="mid"><div class="title">${d.title}</div>
+        <div class="sub">${d.type === "AUC" ? `Bid up to ${gbp(d.maxBid)} · ends in ${d.endsIn}` : `Buy ${gbp(d.price)}`}</div>
+        <span class="tag ${d.conf}">${confLabel(d.conf)}</span></div>
+      <div class="right"><div class="plus">+${gbp(Math.round(d.profit))}</div><div class="ago">${d.mins < 60 ? d.mins + " min" : Math.round(d.mins / 60) + " h"} ago</div></div>
+    </button>`).join("") || '<p class="muted">No deals match. Try ticking more categories in Settings.</p>'}</div></div>${nav("deals")}`;
+  },
+
+  deal: () => {
+    const d = DEALS.find((x) => x.id === S.deal), auc = d.type === "AUC";
+    return `${banner}<div class="screen" style="padding-bottom:100px">
+    <div class="back"><button onclick="go('deals')">${ICON.back}Deals</button><span>${ago(d.mins)}</span></div>
+    <div class="gallery"><div>Photo 1 of 6</div><div>Photo 2 of 6</div><div>Photo 3 of 6</div></div>
+    <div class="tags"><button class="tag ${d.conf}" onclick="toast('${confLabel(d.conf)}: ${confText[d.conf].replace(/'/g, "\\'")} ${d.n} sales in ${d.days} days.')">${confLabel(d.conf)} ⓘ</button><span class="tag">${auc ? "Auction · " + d.bids + " bid" + (d.bids > 1 ? "s" : "") : "Buy It Now"}</span><span class="tag">${d.cond}</span></div>
+    <h2>${d.title}</h2>
+    <div class="card profit"><div class="muted small">${auc ? "Profit if you win at your max bid" : "Expected profit"}</div>
+      <div class="big">${gbp(Math.round(d.profit))}</div>
+      <div class="muted small">${d.lowProfit >= 1 ? "At least " + gbp(Math.floor(d.lowProfit)) + " even if it sells at the low end" : d.lowProfit > -0.5 ? "No loss even if it sells at the low end" : "Could make a small loss if it only sells at the low end"}</div></div>
+    <div class="grid2">
+      <div class="card box"><div class="muted small">${auc ? "Bid up to" : "Buy now for"}</div><div class="val">${gbp(auc ? d.maxBid : d.price)}</div>${auc ? `<div class="muted small">Now ${gbp(d.price)} · ends in ${d.endsIn}</div>` : ""}</div>
+      <div class="card box"><div class="muted small">Usually sells for</div><div class="val">${gbp(d.sells)}</div></div></div>
+    <div class="card rows">
+      <div class="row"><span>${auc ? "Max bid + postage in" : "Price + postage in"}</span><span>${gbp(auc ? d.maxBid + d.ship : d.costIn)}</span></div>
+      <div class="row"><span>eBay fees when you sell</span><span>${gbp(fee(d.sells))}</span></div>
+      <div class="row"><span>Postage &amp; packing out</span><span>${gbp(OUT)}</span></div>
+      ${auc ? "" : `<div class="row total"><span>Most to pay (still £10 profit)</span><span>${gbp(Math.floor(d.mostTotal))}</span></div>`}</div>
+    <p class="muted small" style="padding:2px">Based on ${d.n} sales in the last ${d.days} days, mostly between ${gbp(d.lo)} and ${gbp(d.hi)}. Sells in ${d.speed}.</p>
+    <div class="section-title">From the listing</div>
+    <div class="card desc">${d.desc}</div>
+    <div class="card rows" style="margin-top:10px"><div class="row"><span>Seller</span><span>${d.seller}</span></div><div class="row"><span>Feedback</span><span>${d.fb}</span></div></div>
+    </div><div class="cta"><button class="btn" onclick="toast('This would open the listing in the eBay app')">Open on eBay</button></div>`;
+  },
+
+  settings: () => `${banner}<div class="screen"><h2>My settings</h2>
+    <div class="section-title">Deals</div>
+    <div class="card"><div class="set"><div class="lbl">Categories</div>${tickRow("phones", "Phones & tablets")}${tickRow("parts", "Computer parts")}</div>
+      ${slider("spend", "Most I'll spend on one item", 50, 1000, 25, "£")}
+      ${slider("minProfit", "Minimum profit", 5, 100, 5, "£")}
+      <div class="set"><div class="lbl">Collection deals <button class="switch ${S.collect ? "on" : ""}" onclick="S.collect=!S.collect;render()"></button></div><div class="hint">Items you collect in person, often cheaper.</div>
+      ${S.collect ? `<input type="range" min="1" max="50" value="${S.miles}" oninput="S.miles=+this.value;this.nextElementSibling.textContent='Within '+this.value+' miles of your postcode'"><div class="hint">Within ${S.miles} miles of your postcode</div>` : ""}</div></div>
+    <div class="section-title">Alerts</div>
+    <div class="card"><div class="set"><div class="lbl">Quiet hours <button class="switch ${S.quiet ? "on" : ""}" onclick="S.quiet=!S.quiet;render()"></button></div><div class="hint">${S.quiet ? "No alerts 11pm – 7am" : "Alerts any time"}</div></div>
+      ${slider("limit", "Daily alert limit", 5, 50, 5, "")}</div>
+    <button class="link" onclick="S.advanced=!S.advanced;render()">${S.advanced ? "Hide advanced" : "Advanced settings"}</button>
+    ${S.advanced ? `<div class="card"><div class="set"><div class="lbl">I sell as</div>
+      <div class="chips" style="margin:10px 0 0">${[["business", "Business"], ["private", "Private"]].map(([k, l]) => `<button class="chip ${S.seller === k ? "on" : ""}" onclick="S.seller='${k}';render()">${l}</button>`).join("")}</div>
+      <div class="hint">Private sellers in the UK pay no eBay selling fee on most items.</div></div>
+      ${slider("post", "My usual postage cost", 0, 20, 0.5, "£")}${slider("pack", "Packing per item", 0, 5, 0.1, "£")}</div>` : ""}
+    </div>${nav("settings")}`,
+
+  account: () => `${banner}<div class="screen"><h2>Account</h2>
+    <div class="card rows"><div class="row"><span>Email</span><span>you@example.com</span></div><div class="row"><span>Plan</span><span style="color:var(--accent)">Founding member</span></div><div class="row"><span>Renews</span><span>28 Nov 2026</span></div></div>
+    <div class="stack" style="margin-top:14px"><button class="btn ghost" onclick="toast('Plan options would show here')">Change plan</button>
+    <button class="btn ghost" onclick="go('settings')">Alert settings</button>
+    <button class="btn ghost" onclick="toast('Help and contact: hello@fliptimize.com')">Help</button>
+    <button class="btn ghost" onclick="go('ob1')">Log out</button></div>
+    <p class="muted small" style="margin-top:18px">Not affiliated with eBay. Profit figures are estimates, not guarantees. Items are not reserved for you.</p>
+    </div>${nav("account")}`,
+};
+function tickRow(k, label) { return `<button class="tick" onclick="S.cats.${k}=!S.cats.${k};render()"><span class="box-tick ${S.cats[k] ? "on" : ""}"></span>${label}</button>`; }
+function slider(key, label, min, max, step, unit) {
+  const fmt = (v) => unit + (step < 1 ? (+v).toFixed(2) : v);
+  return `<div class="set"><div class="lbl">${label} <b>${fmt(S[key])}</b></div><input type="range" min="${min}" max="${max}" step="${step}" value="${S[key]}" oninput="S.${key}=+this.value;this.previousElementSibling.querySelector('b').textContent='${unit}'+(${step}<1?(+this.value).toFixed(2):this.value)"></div>`;
+}
+function render() { app.innerHTML = SCREENS[S.screen](); }
+render();
+</script>
+</body>
+</html>
