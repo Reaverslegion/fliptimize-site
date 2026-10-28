@@ -7,10 +7,10 @@
 <meta name="robots" content="noindex">
 <style>
 /* v3: FlipScout navy + ONE green; amber only for warnings. Type scale 12/14/16/20/28. Tap targets 44px+ */
-:root{--bg:#FCFCFC;--card:#F3F0FF;--card2:#ECE7FF;--tx:#0B0F1E;--mu:#333C64;--bd:#E2DBFF;--green:#1A6B43;--greenbg:#F5F7FC;--warn:#BD58FD;--warnbg:#F5F7FC;--red:#B42318;--amber:#8A5A00;
+:root{--bg:#FCFCFC;--card:#F3F0FF;--card2:#ECE7FF;--tx:#0B0F1E;--mu:#333C64;--bd:#E2DBFF;--green:#1A6B43;--greenbg:#F5F7FC;--warn:#BD58FD;--warnbg:#F5F7FC;--red:#B42318;--amber:#8A5A00;--gbg:#DDF1E5;
  --vi:#5938FD;--soft:#926CFC;--btn:#5938FD;--onbtn:#FFFFFF;--brand:#FCFCFC;--brandbd:#E8E5FE;--brandtx:#0B0F1E;--navmu:#333C64;--navac:#5938FD;
  --logo:linear-gradient(135deg,#6937FB,#BD58FD);--grad:linear-gradient(135deg,#5938FD 0%,#5938FD 45%,#BD58FD 100%);--shadow:0 1px 2px rgba(51,60,100,.06),0 6px 18px rgba(89,56,253,.08);color-scheme:light dark}
-@media (prefers-color-scheme:dark){:root{--bg:#13162A;--card:#20233C;--card2:#15182A;--tx:#F1F4FE;--mu:#E8E5FE;--bd:#333C64;--green:#5BB98B;--greenbg:#20233C;--warn:#C85EFB;--warnbg:#20233C;--red:#E07A7A;--amber:#E3B341;
+@media (prefers-color-scheme:dark){:root{--bg:#13162A;--card:#20233C;--card2:#15182A;--tx:#F1F4FE;--mu:#E8E5FE;--bd:#333C64;--green:#5BB98B;--greenbg:#20233C;--warn:#C85EFB;--warnbg:#20233C;--red:#E07A7A;--amber:#E3B341;--gbg:#173226;
  --vi:#A582FD;--soft:#974EFD;--btn:#6143FC;--onbtn:#FFFFFF;--brand:#15182A;--brandbd:#20233C;--brandtx:#F1F4FE;--navmu:#E8E5FE;--navac:#A582FD;
  --logo:linear-gradient(135deg,#974EFD,#C85EFB);--grad:linear-gradient(135deg,#6143FC 0%,#6143FC 45%,#C85EFB 100%);--shadow:none}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -71,6 +71,11 @@ main{padding:12px 16px 16px;max-width:640px;margin:auto}
 .tiles{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:8px;margin-bottom:4px}
 .tile{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;min-width:0}
 .tile.gb{border:2px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad) border-box;padding:9px 11px}
+.rows .deal.deal{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;margin-bottom:10px;box-shadow:var(--shadow)}
+.sring{width:30px;height:30px;border-radius:50%;border:2.5px solid currentColor;display:inline-grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+.sring.s1{color:var(--green)}.sring.s2{color:var(--amber)}.sring.s3{color:var(--red)}
+.dmeta{gap:6px !important;margin-top:6px !important}
+.ppill{background:var(--gbg);color:var(--green);font-weight:800;font-size:17px;border-radius:10px;padding:6px 10px}
 .sec{font-size:14px;font-weight:700;color:var(--mu);margin:20px 2px 8px}
 .li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);font-size:16px}
 .li:last-child{border-bottom:0}.li>span:first-child{color:var(--mu)}.li.t>span{font-weight:700;color:var(--tx)}.li.t>span.green{color:var(--green)}
@@ -185,10 +190,10 @@ function row(d) {
    <div class="thumb">Photo</div>
    <div class="dmid">
     <div class="dtitle">${d.title}</div>
-    <div class="dsub">${auc ? `<span class="lab">Auction</span> Bid up to <b>${gbp0(d.maxBid)}</b> · ends ${ends(d.endsMin)}` : `Buy <b>${gbp(d.price)}</b>${d.ship ? "" : " · free post"}`}</div>
-    <div class="dmeta">${scoreTxt(d)}<span>· ${ago(d.mins)}</span></div>
+    <div class="dsub">${auc ? `<span class="lab">Auction</span> Bid up to <b>${gbp0(d.maxBid)}</b>` : `Buy <b>${gbp(d.price)}</b>${d.ship ? "" : " · free post"}`}</div>
+    <div class="dmeta"><span class="sring ${d.score >= 70 ? "s1" : d.score >= 50 ? "s2" : "s3"}">${d.score}</span><span class="sw-word">${word(d.score)}</span><span>· ${auc ? "ends " + ends(d.endsMin) : ago(d.mins)}</span></div>
    </div>
-   <div class="dright"><div class="profit">+${gbp0(d.profit)}</div><div class="plab">profit</div>
+   <div class="dright"><div class="ppill num">+${gbp0(d.profit)}</div>
     ${S.preview ? "" : `<button class="more" aria-label="More options" onclick="event.stopPropagation();moreSheet(${d.id})">${IC.more}</button>`}</div>
   </div>`;
 }
@@ -232,7 +237,7 @@ const SCR = {
     return `${demo}${head(`<span class="hsub">${S.preview ? "Examples" : "Updated 1 min ago"}</span>`)}<main>
    ${S.preview ? "" : `<div class="chips">${[["all","All"],["BIN","Buy It Now"],["AUC","Auctions"],["col","Collection"]].map(([v, l]) => `<button class="chip ${S.f === v ? "on" : ""}" onclick="S.f='${v}';render()">${l}</button>`).join("")}</div>
    <div class="spread" style="margin:4px 2px 8px"><span class="mu t14">${L.length} deals</span><button class="sortb" onclick="sortSheet()">Sort: <b>${SORTS[S.sort]}</b> ▾</button></div>`}
-   <div class="card list rows">${L.map(row).join("") || '<p class="mu" style="padding:16px">No deals match. Tick more categories in Settings.</p>'}</div>
+   <div class="rows">${L.map(row).join("") || '<p class="mu" style="padding:16px">No deals match. Tick more categories in Settings.</p>'}</div>
    ${S.preview ? `<div class="card" style="text-align:center"><div class="t20 b">Get deals like these</div><p class="mu t14" style="margin:6px 0 14px">Free to try. Takes 30 seconds.</p><button class="btn" onclick="go('ob2')">Create account</button></div>` : ""}
   </main>${S.preview ? "" : nav("deals")}`;
  },
@@ -271,7 +276,7 @@ const SCR = {
   <div class="cta"><div class="in"><button class="btn s" onclick="S.follow[${d.id}]=!S.follow[${d.id}];render();toast(S.follow[${d.id}]?'Following':'Unfollowed')">${S.follow[d.id] ? "Following" : "Follow"}</button><button class="btn" style="flex:2" onclick="toast('This would open the listing in the eBay app')">Open on eBay</button></div></div>`;
  },
  follow: () => { const L = DEALS.filter((d) => S.follow[d.id]);
-  return `${demo}${head(`<span class="hsub">Following</span>`)}<main><p class="mu t16" style="margin:4px 2px 12px">We'll alert you when an auction is about to end, or if the price drops.</p>${L.length ? `<div class="card list rows">${L.map(row).join("")}</div>` : '<div class="card mu t16">Nothing yet. Tap ⋯ on any deal, then Follow.</div>'}</main>${nav("follow")}`; },
+  return `${demo}${head(`<span class="hsub">Following</span>`)}<main><p class="mu t16" style="margin:4px 2px 12px">We'll alert you when an auction is about to end, or if the price drops.</p>${L.length ? `<div class="rows">${L.map(row).join("")}</div>` : '<div class="card mu t16">Nothing yet. Tap ⋯ on any deal, then Follow.</div>'}</main>${nav("follow")}`; },
  settings: () => `${demo}${head(`<span class="hsub">Settings</span>`)}<main>
   <div class="sec">Categories · ${CATS.filter(([k]) => S.cats[k]).length} of ${CATS.length}</div>
   <div class="card list">${CATS.map(([k, l]) => tick(k, l)).join("")}${SOON.map((l) => `<div class="tick dim"><span class="tb"></span><span style="flex:1">${l}</span><span class="soon">Coming soon</span></div>`).join("")}</div>
