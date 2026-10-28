@@ -128,6 +128,16 @@ nav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;st
 @media (prefers-color-scheme:dark){.lab{color:#13162A !important}}
 @media (prefers-color-scheme:dark){.thumb{background:#2A2E4D !important;border-color:#333C64}}
 .thumb{background:var(--card2)}
+.pcard{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+.pcard.on{border:2px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad) border-box;padding:13px 15px}
+.pcard .ph1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pcard .pn{font-weight:800;font-size:20px}.pcard .pp{font-weight:700;font-size:16px}.pcard .pp small{font-weight:400;font-size:12px;color:var(--mu)}
+.pbadge{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--grad);color:#fff}
+.pbody{display:flex;gap:12px;align-items:flex-start;margin-top:8px}
+.ppot{background:var(--gbg);border-radius:12px;padding:8px 12px;flex:none;min-width:112px}
+.ppot b{display:block;color:var(--green);font-size:20px;line-height:1.15}.ppot span{font-size:12px;color:var(--mu)}
+.pchk{display:flex;gap:8px;font-size:14px;padding:2px 0}.pchk:before{content:"\2713";color:var(--vi);font-weight:800}
+.pex{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mu);border:1px solid var(--bd);border-radius:6px;padding:0 5px;margin-left:6px;vertical-align:2px}
 </style>
 </head>
 <body>
@@ -293,23 +303,26 @@ const SCR = {
  follow: () => { const L = DEALS.filter((d) => S.follow[d.id]);
   return `${demo}${head(`<span class="hsub">Following</span>`)}<main><p class="mu t16" style="margin:4px 2px 12px">We'll alert you when an auction is about to end, or if the price drops.</p>${L.length ? `<div class="rows">${L.map(row).join("")}</div>` : '<div class="card mu t16">Nothing yet. Tap ⋯ on any deal, then Follow.</div>'}</main>${nav("follow")}`; },
  settings: () => `${demo}${head(`<span class="hsub">Settings</span>`)}<main>
+  ${plansHtml()}
   <div class="sec">Categories · ${CATS.filter(([k]) => S.cats[k]).length} of ${CATS.length}</div>
   <div class="card list">${CATS.map(([k, l]) => tick(k, l)).join("")}${SOON.map((l) => `<div class="tick dim"><span class="tb"></span><span style="flex:1">${l}</span><span class="soon">Coming soon</span></div>`).join("")}</div>
   <div class="sec">Deals</div>
-  <div class="card list">${slider("spend","Most I'll spend on one item",50,1500,25,"£")}${slider("minProfit","Minimum profit",5,100,5,"£")}
+  <div class="card list">${slider("spend","Most I'll spend on one item",50,1500,25,"£")}
    <div class="set"><div class="spread"><div><div class="t16 b">Collection deals</div><div class="mu t14">Collect in person — often cheaper</div></div><button class="sw ${S.collect ? "on" : ""}" role="switch" aria-checked="${S.collect}" onclick="S.collect=!S.collect;render()"></button></div>${S.collect ? slider("miles","Distance from NE9",1,50,1," miles",true) : ""}</div></div>
   <div class="sec">Alerts</div>
   <div class="card list"><div class="set"><div class="spread"><div><div class="t16 b">Quiet hours</div><div class="mu t14">${S.quiet ? "No alerts 11pm – 7am" : "Alerts any time"}</div></div><button class="sw ${S.quiet ? "on" : ""}" role="switch" aria-checked="${S.quiet}" onclick="S.quiet=!S.quiet;render()"></button></div></div>${slider("limit","Daily alert limit",5,50,5,"")}</div>
   <button class="btn link" onclick="S.adv=!S.adv;render()">${S.adv ? "Hide advanced settings" : "Advanced settings"}</button>
   ${S.adv ? `<div class="card list"><div class="set"><div class="t16 b">I sell as</div><div class="chips" style="padding:10px 0 0">${[["business","Business"],["private","Private"]].map(([v, l]) => `<button class="chip ${S.seller === v ? "on" : ""}" onclick="S.seller='${v}';render()">${l}</button>`).join("")}</div><div class="mu t14">Private sellers in the UK pay no eBay selling fee on most items.</div></div>${slider("post","My usual postage cost",0,20,0.5,"£")}${slider("pack","Packing per item",0,5,0.1,"£")}</div>` : ""}</main>${nav("settings")}`,
  account: () => `${demo}${head(`<span class="hsub">Account</span>`)}<main>
-  <div class="card"><div class="mu t14">Your plan</div><div class="t20 b">Founding member</div><div class="mu t14">Price locked in while you stay subscribed · renews 28 Nov 2026</div></div>
+  <div class="card"><div class="mu t14">Your plan</div><div class="t20 b">Pro · free trial</div><div class="mu t14">9 days left, then £19.99 a month (example price). Cancel any time.</div></div>
   <div class="card list"><div class="li"><span>Deals sent this month</span><span class="num">146</span></div><div class="li"><span>Deals you opened</span><span class="num">38</span></div><div class="li"><span>Email</span><span>you@example.com</span></div></div>
   <button class="btn s" onclick="toast('Plan options would show here')">Change plan</button>
   <button class="btn s" style="margin-top:10px" onclick="toast('Help: hello@fliptimize.com')">Help & contact</button>
   <button class="btn link" onclick="go('ob1',{preview:false})">Log out</button>
   <p class="mu t12" style="margin:16px 4px">Not affiliated with eBay. Profit figures are estimates from recent sales, not guarantees. Items are not reserved for you.</p></main>${nav("account")}`,
 };
+const PLANS = [["Basic","£9.99","£150",["Shared deals up to £49 profit","Up to 10 deals a day"]],["Pro","£19.99","£400",["Deals up to £99 profit","Early look at bigger deals","Up to 25 deals a day"]],["Premium","£39.99","£1,000",["All deals, including £100+","First look and exclusive deals","No daily limit"]]];
+const plansHtml = () => `<div class="sec">Plans · you're on Pro (free trial, 9 days left)<span class="pex">Example</span></div>${PLANS.map(([n, pr, pot, f], i) => `<div class="pcard ${i === 1 ? "on" : ""}"><div class="ph1"><div><span class="pn">${n}</span> <span class="pp">· ${pr} <small>/month</small></span></div>${i === 1 ? '<span class="pbadge">Your plan</span>' : ""}</div><div class="pbody"><div class="ppot"><b class="num">${pot}</b><span>deals worth up to<br>this a month</span></div><div>${f.map((x) => `<div class="pchk">${x}</div>`).join("")}</div></div></div>`).join("")}<p class="mu t12" style="margin:0 4px 6px">Total profit of the deals we'd send you, after eBay fees and postage. Not guaranteed — what you make depends on what you buy and sell.</p><button class="btn s" onclick="toast('Plan options would show here')">Change plan</button>`;
 function tick(k, l) { return `<button class="tick" role="checkbox" aria-checked="${S.cats[k]}" onclick="S.cats.${k}=!S.cats.${k};render()"><span class="tb ${S.cats[k] ? "on" : ""}"></span>${l}</button>`; }
 function slider(key, label, min, max, step, unit, after) {
   const f = (v) => after ? v + unit : unit + (step < 1 ? (+v).toFixed(2) : v);
